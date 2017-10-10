@@ -451,12 +451,14 @@ rangy.createModule("TextRange", ["WrappedSelection"], function(api, module) {
     function isCollapsedNode(node) {
         var type = node.nodeType;
         //log.debug("isCollapsedNode", isHidden(node), /^(script|style)$/i.test(node.nodeName), isCollapsedWhitespaceNode(node));
+        var customIsCollapsedNode =  api.config.customIsCollapsedNode;
         return type == 7 /* PROCESSING_INSTRUCTION */ ||
             type == 8 /* COMMENT */ ||
             isHidden(node) ||
             /^(script|style)$/i.test(node.nodeName) ||
             isVisibilityHiddenTextNode(node) ||
-            isCollapsedWhitespaceNode(node);
+            isCollapsedWhitespaceNode(node) ||
+            (customIsCollapsedNode && customIsCollapsedNode(node));
     }
 
     function isIgnoredNode(node, win) {
